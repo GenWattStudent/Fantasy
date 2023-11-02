@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab3ae589117eb44db5af3e866782a12, type: 3}
+  m_Name: Tank
+  m_EditorClassIdentifier: 
+  unitType: 1
+  health: 300
+  damage: 100
+  attackRange: 50
+  attackSpeed: 3
+  movementSpeed: 5
+  sightRange: 70
+  attackCooldown: 5
+  buildTime: 10
+  ammo: 5
+  spawnTime: 5
+  cost: 100
+  prefab: {fileID: 6909890712002571768, guid: b84333b0e6c05704ab3245db65087cbe, type: 3}
+  sprite: {fileID: 0}
+  bulletPrefab: {fileID: 8006771066995348530, guid: 2d4baba64baeec04bb88f3a25b5eb777,
+    type: 3}

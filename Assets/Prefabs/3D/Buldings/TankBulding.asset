@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffb471801471f5a4ba9158ec1a5539c6, type: 3}
+  m_Name: TankBulding
+  m_EditorClassIdentifier: 
+  buildingType: 1
+  buildingName: Tank Factory
+  buildingDescription: Fajna taka
+  buildingSprite: {fileID: 21300000, guid: 61c2e79c055db4a458051b87a63d15d4, type: 3}
+  buildingPrefab: {fileID: 6105845450470179966, guid: 984a40a1c9a2fc248b0c1245d648753f,
+    type: 3}
+  buildingValidPrefab: {fileID: 6105845450470179966, guid: 3c78445144164ac4390d5587a03f797f,
+    type: 3}
+  buildingInvalidPrefab: {fileID: 6105845450470179966, guid: b2d0e1fd4f96f4046af53af12c49fc86,
+    type: 3}
+  buildingCost: 100
+  buildingIncome: 0
+  buildingHealth: 2000
+  buildingAttack: 0
+  unitsToSpawn:
+  - {fileID: 11400000, guid: b4217573c102c394ca18dc0953b83948, type: 2}
