@@ -11,6 +11,7 @@ public class TankSpawner : NetworkBehaviour, IPointerClickHandler, ISpawnerBuild
     [HideInInspector] public int ownerId;
     private List<SoUnit> unitsQueue = new ();
     private float spawnTimer;
+    private bool isUnitSpawning = false;
 
     [Command]
     private void SpawnUnitCommand()
@@ -39,22 +40,24 @@ public class TankSpawner : NetworkBehaviour, IPointerClickHandler, ISpawnerBuild
 
     private void StartQueue()
     {
-        if (unitsQueue.Count > 0)
+        if (unitsQueue.Count > 0 && !isUnitSpawning)
         {
             spawnTimer = unitsQueue[0].spawnTime;
+            isUnitSpawning = true;
         }
     }
 
     private void SpawnUnit()
     {
         if (spawnTimer > 0) return;
-
+    
         if (unitsQueue.Count > 0)
         {
             Debug.Log("SpawnUnit " + unitsQueue[0]);
             unitToSpawn = unitsQueue[0];
             SpawnUnitCommand();
             unitsQueue.RemoveAt(0);
+            isUnitSpawning = false;
             StartQueue();
         }
     }
@@ -67,6 +70,7 @@ public class TankSpawner : NetworkBehaviour, IPointerClickHandler, ISpawnerBuild
         if (!isOwned) return;
 
         spawnTimer -= Time.deltaTime;
+        Debug.Log("Update " + spawnTimer);
         StartQueue();
         SpawnUnit();
 

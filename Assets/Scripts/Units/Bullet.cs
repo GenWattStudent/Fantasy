@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float speed = 30f;
+    [SerializeField] private float speed = 100f;
     public int damage = 10;
     private float lifeTime = 2f;
     public int ownerId;
@@ -14,9 +14,6 @@ public class Bullet : MonoBehaviour
     }
 
     private void Update() {
-        lifeTime -= Time.deltaTime;
-        if (lifeTime <= 0) {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject, lifeTime);
     }
 }

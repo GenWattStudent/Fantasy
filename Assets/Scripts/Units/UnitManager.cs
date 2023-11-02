@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Mirror;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitManager : NetworkBehaviour
@@ -44,11 +45,15 @@ public class UnitManager : NetworkBehaviour
     }
 
     private void AssignMaterialColorForOwnedUnits() {
-        foreach(var prefab in prefabsToColorChange) {
-            // change color of prefab to green (evey child of the prefab)
-            var material = prefab.GetComponentInChildren<MeshRenderer>().material;
-            Debug.Log("AssignMaterialColorForOwnedUnits " + PlayersManager.playerTexture);
-            material.SetTexture("_playerTexture", PlayersManager.playerTexture);
-        }
+        // foreach(var prefab in prefabsToColorChange) {
+        //     // change color of prefab to green (evey child of the prefab)
+        //     var material = prefab.GetComponentInChildren<MeshRenderer>().material;
+        //     Debug.Log("AssignMaterialColorForOwnedUnits " + PlayersManager.playerTexture);
+        //     material.SetTexture("_playerTexture", PlayersManager.playerTexture);
+        // }
+
+        var turret = GetComponentInChildren<Turret>();
+
+        turret.GetComponent<MeshRenderer>().material.SetTexture("_playerTexture", PlayersManager.playerTexture);
     }
 }
