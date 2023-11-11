@@ -1,26 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using Mirror;
+using Unity.Netcode;
 using UnityEngine;
 
 public class Turret : NetworkBehaviour
 {
-
-    public void RotateToTarget(Vector3 targetPosition) {
+    public void RotateToTarget(Vector3 targetPosition, float rotateSpeed) {
         Vector3 direction = targetPosition - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        Vector3 rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * 10f).eulerAngles;
-        transform.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+        Vector3 rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * rotateSpeed).eulerAngles;
+        transform.rotation = Quaternion.Euler(rotation);
     }
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public bool IsInFieldOfView(Vector3 targetPosition, float fieldOfViewAngle) {
+        Vector3 direction = targetPosition - transform.position;
+        float angle = Vector3.Angle(direction, transform.forward);
+        return angle < fieldOfViewAngle * 0.5f;
     }
 }

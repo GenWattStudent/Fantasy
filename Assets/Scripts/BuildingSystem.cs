@@ -1,11 +1,11 @@
-using Mirror;
+using Unity.Netcode;
 using UnityEngine;
 
 public class BuildingSystem : NetworkBehaviour
 {
     [SerializeField] private Camera camera;
     [SerializeField] private LayerMask terrainLayer;
-    public SOBulding SelectedBuilding { get; private set; }
+    public SOBuilding SelectedBuilding { get; private set; }
     private PlaceableBuilding placeableBuilding;
     private GameObject previewPrefab;
     private static BuildingSystem instance;
@@ -17,7 +17,7 @@ public class BuildingSystem : NetworkBehaviour
         camera = Camera.main;
     }
 
-    public void SetSelectedBuilding(SOBulding building) {
+    public void SetSelectedBuilding(SOBuilding building) {
         SelectedBuilding = building;
         if (previewPrefab) Destroy(previewPrefab);
         previewPrefab = Instantiate(SelectedBuilding.buildingValidPrefab);
@@ -55,19 +55,19 @@ public class BuildingSystem : NetworkBehaviour
         previewPrefab.transform.position = mousePosition;
     }
 
-    [Command]
-    private void CmdPlaceBuilding(int index, Vector3 position) {
+    [ServerRpc]
+    private void PlaceBuildingServerRpc(int index, Vector3 position) {
         Debug.Log("CmdPlaceBuilding");
-        var prefab = NetworkManager.singleton.spawnPrefabs[index];
+        var prefab = NetworkManager.Singleton.GetNetworkPrefabOverride(SelectedBuilding.buildingPrefab);
         if (prefab is null) return;
         var newBuilding = Instantiate(prefab, position, Quaternion.identity);
-        NetworkServer.Spawn(newBuilding, connectionToClient);
+        newBuilding.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
     }
 
     private void PlaceBuilding() {
         if (Input.GetMouseButtonDown(0) && IsValidPosition()) {
             Debug.Log("PlaceBuilding " + SelectedBuilding.buildingPrefab.name);
-            CmdPlaceBuilding(0, previewPrefab.transform.position);
+            PlaceBuildingServerRpc(0, previewPrefab.transform.position);
             CancelBuilding();
         }
     }
@@ -79,21 +79,20 @@ public class BuildingSystem : NetworkBehaviour
     public void CancelBuilding() {
         Destroy(previewPrefab);
         SelectedBuilding = null;
-        BuildingManager.Instance.SetSelectedBuilding(null);
+        UIBuildingManager.Instance.SetSelectedBuilding(null);
     }
 
     private void CheckSelectedBuilding() {
-        var selectedBuilding = BuildingManager.Instance.GetSelectedBuilding();
+        var selectedBuilding = UIBuildingManager.Instance.GetSelectedBuilding();
 
         if (selectedBuilding != null && selectedBuilding != SelectedBuilding) {
             SetSelectedBuilding(selectedBuilding);
         }
     }
 
-    [ClientCallback]
     private void Update() {
         // Debug.Log(transform.name + " Update " + isOwned + " " + SelectedBuilding);
-        if (!isOwned && SelectedBuilding == null) return;
+        if (!IsOwner && SelectedBuilding == null) return;
 
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)) {
             CancelBuilding();

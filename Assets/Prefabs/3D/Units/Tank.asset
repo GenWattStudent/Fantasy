@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Tank
   m_EditorClassIdentifier: 
   unitType: 1
+  unitName: Tank
   health: 300
   damage: 100
   attackRange: 50
@@ -25,6 +26,8 @@ MonoBehaviour:
   spawnTime: 5
   cost: 100
   prefab: {fileID: 6909890712002571768, guid: b84333b0e6c05704ab3245db65087cbe, type: 3}
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 2c88f0461ec04a3489254e984768bc88, type: 3}
   bulletPrefab: {fileID: 8006771066995348530, guid: 2d4baba64baeec04bb88f3a25b5eb777,
     type: 3}
+  rotateSpeed: 3
+  flieldOfView: 25

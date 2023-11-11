@@ -23,12 +23,13 @@ public class UnitSelection : MonoBehaviour
     public void SelectAllUnits(List<Unit> units) {
         foreach (Unit unit in units) {
             unit.Select();
+            unit.GetComponent<UnitHealthbar>().OnDied += RemoveUnitFromSelected;
             unit.GetComponent<UnitMovement>().enabled = true;
-            unit.OnDied += RemoveUnitFromSelected;
         }
     }
 
     public void RemoveUnitFromSelected(Unit unit) {
+        Debug.Log("RemoveUnitFromSelected " + unit);
         selectedUnits.Remove(unit);
     }
 
@@ -36,16 +37,16 @@ public class UnitSelection : MonoBehaviour
         foreach (Unit unit in selectedUnits) {
             unit.Deselect();
             unit.GetComponent<UnitMovement>().enabled = false;
-            unit.OnDied -= RemoveUnitFromSelected;
+            unit.GetComponent<UnitHealthbar>().OnDied -= RemoveUnitFromSelected;
         }
         selectedUnits.Clear();
     }
 
     public void Select(Unit unit) {
         selectedUnits.Add(unit);
+        unit.GetComponent<UnitHealthbar>().OnDied += RemoveUnitFromSelected;
         unit.Select();
         unit.GetComponent<UnitMovement>().enabled = true;
-        unit.OnDied += RemoveUnitFromSelected;
     }
 
     public void DragSelect(Unit unit) {

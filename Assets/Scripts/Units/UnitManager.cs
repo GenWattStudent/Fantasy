@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using Mirror;
-using Unity.VisualScripting;
+using Unity.Netcode;
 using UnityEngine;
 
 public class UnitManager : NetworkBehaviour
@@ -10,7 +9,7 @@ public class UnitManager : NetworkBehaviour
 
     void Start()
     {
-        if (!isOwned) {
+        if (!IsOwner) {
             DisableComponents();
             AssignRemoteLayer();
             AssignMaterialColor();
@@ -36,24 +35,15 @@ public class UnitManager : NetworkBehaviour
 
     private void AssignMaterialColor() {
         foreach(var prefab in prefabsToColorChange) {
-            // change color of prefab to red (evey child of the prefab)
-            var material = prefab.GetComponentInChildren<MeshRenderer>().material;
-            // change material texture 
-            Debug.Log("AssignMaterialColorForOwnedUnits " + PlayersManager.playerTexture);
-            material.SetTexture("_playerTexture", PlayersManager.playerTexture);
+            prefab.GetComponentInChildren<MeshRenderer>().material = PlayersManager.playerTexture;
         }
     }
 
-    private void AssignMaterialColorForOwnedUnits() {
-        // foreach(var prefab in prefabsToColorChange) {
-        //     // change color of prefab to green (evey child of the prefab)
-        //     var material = prefab.GetComponentInChildren<MeshRenderer>().material;
-        //     Debug.Log("AssignMaterialColorForOwnedUnits " + PlayersManager.playerTexture);
-        //     material.SetTexture("_playerTexture", PlayersManager.playerTexture);
-        // }
-
-        var turret = GetComponentInChildren<Turret>();
-
-        turret.GetComponent<MeshRenderer>().material.SetTexture("_playerTexture", PlayersManager.playerTexture);
+    public void AssignMaterialColorForOwnedUnits() {
+        foreach(var prefab in prefabsToColorChange) {
+            // change color of prefab to green (evey child of the prefab)
+            prefab.GetComponentInChildren<MeshRenderer>().material = PlayersManager.playerTexture;
+    
+        }
     }
 }

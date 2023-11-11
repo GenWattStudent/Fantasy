@@ -1,19 +1,27 @@
-using Mirror;
+using Unity.Netcode;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class Bullet : MonoBehaviour
+public class Bullet : NetworkBehaviour
 {
     [SerializeField] private float speed = 100f;
-    public int damage = 10;
+    public float damage = 20;
     private float lifeTime = 2f;
-    public int ownerId;
+
+    public void SetBulletStats(SoUnit unitData) {
+        damage = unitData.damage;
+    }
 
     private void Start() {
-        GetComponent<Rigidbody>().velocity = transform.forward * speed;
+        var rigidbody = GetComponentInChildren<Rigidbody>();
+        if (rigidbody != null) {
+            rigidbody.velocity = transform.forward * speed;
+        }
     }
 
     private void Update() {
-        Destroy(gameObject, lifeTime);
+        lifeTime -= Time.deltaTime;
+        if (lifeTime <= 0f && IsServer) {
+            GetComponent<NetworkObject>().Despawn(true);
+        }
     }
 }

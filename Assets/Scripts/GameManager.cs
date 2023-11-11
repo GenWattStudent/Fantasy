@@ -1,6 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using Mirror;
+using Unity.Netcode;
 using UnityEngine;
 
 public class GameManager : NetworkBehaviour
@@ -9,7 +8,7 @@ public class GameManager : NetworkBehaviour
     private static Dictionary<string, PlayersManager> players = new ();
     [HideInInspector] public static int playersInGame = 0;
 
-    public static void RegisterPlayer(int netID, PlayersManager player) {
+    public static void RegisterPlayer(ulong netID, PlayersManager player) {
         string playerID = PlayerIDPrefix + netID;
         players.Add(playerID, player);
         player.transform.name = playerID;
@@ -23,13 +22,13 @@ public class GameManager : NetworkBehaviour
         return players[playerID];
     }
 
-    public override void OnStartClient() {
-        base.OnStartClient();
-        playersInGame++;
-    }
+    // public override void OnStartClient() {
+    //     base.OnStartClient();
+    //     playersInGame++;
+    // }
 
-    public override void OnStopClient() {
-        base.OnStopClient();
-        playersInGame--;
-    }
+    // public override void OnStopClient() {
+    //     base.OnStopClient();
+    //     playersInGame--;
+    // }
 }

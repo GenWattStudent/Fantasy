@@ -9,8 +9,8 @@ public class UITabManagement : MonoBehaviour
 
     private void CreateTabs()
     {
-        // Make tabs from enum SoBulding
-        var unitTypes = System.Enum.GetValues(typeof(SOBulding.BuildingType));
+        // Make tabs from enum SOBuilding
+        var unitTypes = System.Enum.GetValues(typeof(SOBuilding.BuildingType));
 
         foreach (var unitType in unitTypes)
         {
@@ -25,10 +25,8 @@ public class UITabManagement : MonoBehaviour
             tab.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => {
                 // Set current tab
                 Debug.Log("Clicked on " + tab.name);
-                CurrentTab = tab.name;
-                // Set all tabs to not active
- 
-                BuildingManager.Instance.CreateBuildingTabs((SOBulding.BuildingType)System.Enum.Parse(typeof(SOBulding.BuildingType), tab.name));
+                CurrentTab = tab.name; 
+                UIBuildingManager.Instance.CreateBuildingTabs((SOBuilding.BuildingType)System.Enum.Parse(typeof(SOBuilding.BuildingType), tab.name));
             });
             // Add tab to list
             tabs.Add(tab);

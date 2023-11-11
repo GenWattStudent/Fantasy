@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Building", menuName = "Create Building")]
-public class SOBulding : ScriptableObject
+public class SOBuilding : ScriptableObject
 {
     public enum BuildingType
     {
